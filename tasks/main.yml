@@ -1,0 +1,36 @@
+---
+# tasks file for cloudlinux-exporter-role
+
+# Download cloudlinux_exporter binary
+- name: Check latest cloudlinux_exporter
+  uri:
+    url: https://api.github.com/repos/shumbashi/cloudlinux_exporter/releases/latest
+    return_content: true
+  register: cloudlinuxexporter_latest
+  become: true
+
+- name: "Installing cloudlinux_exporter {{ cloudlinuxexporter_latest.json.tag_name }}"
+  loop: "{{ cloudlinuxexporter_latest.json.assets }}"
+  when: "'linux.amd64' in item.name"
+  get_url:
+    url: "{{ item.browser_download_url }}"
+    dest: "/usr/local/bin/cloudlinux_exporter"
+    mode: "+x"
+  become: true
+
+# Create systemd service file from template
+- name: Create systemd service file from template
+  template:
+    dest: /etc/systemd/system/cloudlinux_exporter.service
+    src: cloudlinux_exporter.service.j2
+  become: true
+
+# Enable and start service
+
+- name: Enable and start service
+  systemd:
+    name: cloudlinux_exporter
+    enabled: true
+    state: started
+    daemon_reload: yes
+  become: true

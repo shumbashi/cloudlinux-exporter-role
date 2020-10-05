@@ -1,0 +1,4 @@
+---
+# defaults file for cloudlinux-exporter-role
+
+cloudlinux_exporter_port: 9103

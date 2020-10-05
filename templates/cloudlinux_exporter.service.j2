@@ -1,0 +1,15 @@
+[Unit]
+Description=Prometheus Cloudlinux Exporter
+Documentation=https://github.com/shumbashi/cloudlinux_exporter
+Wants=network-online.target
+After=network-online.target
+
+[Service]
+Type=simple
+ExecReload=/bin/kill -HUP $MAINPID
+Restart=on-failure
+ExecStart=/usr/local/bin/cloudlinux_exporter \
+    --port {{ cloudlinux_exporter_port }}
+
+[Install]
+WantedBy=multi-user.target

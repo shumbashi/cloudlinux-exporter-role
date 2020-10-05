@@ -1,0 +1,7 @@
+---
+- name: Converge
+  hosts: all
+  tasks:
+    - name: "Include cloudlinux-exporter-role"
+      include_role:
+        name: "cloudlinux-exporter-role"
