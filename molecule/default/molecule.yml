@@ -5,6 +5,7 @@ driver:
   name: vagrant
 platforms:
   - name: instance
+    box: centos/7
 provisioner:
   name: ansible
 verifier:
