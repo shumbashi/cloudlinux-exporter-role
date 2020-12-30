@@ -7,7 +7,8 @@ After=network-online.target
 [Service]
 Type=simple
 ExecReload=/bin/kill -HUP $MAINPID
-Restart=on-failure
+Restart=always
+RestartSec=1
 ExecStart=/usr/local/bin/cloudlinux_exporter \
     --port {{ cloudlinux_exporter_port }}
 
